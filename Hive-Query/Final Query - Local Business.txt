@@ -1,0 +1,667 @@
+/*To insert the .CSV files into the HDFS
+hdfs dfs -put Local_Bussiness2016 '/user/yashubh/LocalBussiness'
+hdfs dfs -put reviews '/user/yashubh/Reviews'
+
+/*To create the master table for the Local Business dataset
+
+DROP TABLE IF EXISTS biz;
+
+CREATE EXTERNAL TABLE IF NOT EXISTS biz(
+business_id string,
+full_address string,
+Friday_close  String, 
+Friday_open  String,
+Tuesday_close  String,
+Tuesday_open  String,
+Thursday_close  String,
+Thursday_open  String,
+Sunday_close  String,
+Sunday_open  String,
+Saturday_close  String,
+Saturday_open String,
+Wednesday_close  String,
+Wednesday_open  String,
+Monday_close  String,
+Monday_open  String,
+categories_001  String,
+categories_002  String,
+categories_003 String,
+categories_004  String,
+categories_005 String,
+categories_006 String,
+categories_007 String,
+categories_008  String,
+categories_009  String,
+categories_010 String,
+city   String,
+review_count Int,
+name  String,
+longitude  Double,
+latitude  Double,
+neighborhoods_001    String,
+neighborhoods_002    String,
+neighborhoods_003    String,
+state  String,
+stars  Double,
+Accepts_Insurance   Boolean,
+coloring Boolean,
+africanamerican    Boolean,
+curly Boolean,
+perms Boolean,
+kids  Boolean,
+extensions Boolean,
+asian  Boolean,
+straightperms  Boolean,
+By_Appointment_Only  Boolean,
+Happy_Hour  Boolean,
+Take_out Boolean,
+Drive_Thru  Boolean,
+Good_For_dessert Boolean,
+Good_For_latenight  Boolean,
+Good_For_lunch Boolean,
+Good_For_dinner  Boolean,
+Good_For_brunch  Boolean,
+Good_For_breakfast  Boolean,
+Caters  Boolean,
+BYOB   Boolean,
+Corkage  Boolean,
+Noise_Level String,
+Takes_Reservations Boolean,
+Dietary_Restrictions_dairy_free  Boolean,
+Dietary_Restrictions_gluten_free  Boolean,
+Dietary_Restrictions_vegan  Boolean,
+Dietary_Restrictions_kosher  Boolean,
+Dietary_Restrictions_halal  Boolean,
+Dietary_Restrictions_soy_free Boolean,
+Dietary_Restrictions_vegetarian  Boolean,
+Delivery Boolean,
+Dogs_Allowed Boolean,
+Coat_Check  Boolean,
+Smoking  String,
+Ambience_romantic Boolean,
+Ambience_intimate Boolean,
+Ambience_classy Boolean,
+Ambience_hipster Boolean,
+Ambience_divey Boolean,
+Ambience_touristy Boolean,
+Ambience_trendy Boolean,
+Ambience_upscale Boolean,
+Ambience_casual Boolean,
+Parking_garage Boolean,
+Parking_street Boolean,
+Parking_validated Boolean,
+Parking_lot Boolean,
+Parking_valet Boolean,
+Ages_Allowed Boolean,
+Wheelchair_Accessible Boolean,
+Open24Hours Boolean,
+Music_dj Boolean,
+Music_background_music Boolean,
+Music_jukebox Boolean,
+Music_live Boolean,
+Music_video Boolean,
+Music_karaoke Boolean,
+Has_TV Boolean,
+Outdoor_Seating Boolean,
+Attire  String,
+Alcohol Boolean,
+Waiter_Service Boolean,
+Wi_Fi String,
+Order_at_Counter Boolean,
+Accepts_Credit_Cards Boolean,
+BYOB_Corkage String,
+Good_for_Kids Boolean,
+Good_For_Groups Boolean,
+Price_Range Int,
+Good_For_Dancing Boolean,
+type String)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE LOCATION '/user/yashubh/LocalBussiness/' 
+TBLPROPERTIES ('skip.header.line.count'='1');
+
+
+/*To create table for the food category
+Create EXTERNAL TABLE IF NOT EXISTS Food(
+
+business_id string,
+categories_001  String,
+city   String,
+name  String,
+review_count int,
+stars  Double)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE LOCATION
+'/user/yashubh/LocalBussiness/Food';
+
+
+/*To create table for the Education category
+Create EXTERNAL TABLE IF NOT EXISTS Education(
+
+business_id string,
+categories_001  String,
+city   String,
+name  String,
+review_count int,
+stars  Double)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE LOCATION
+'/user/yashubh/LocalBussiness/Education';
+
+
+/*To create table for the Entertainment category
+Create EXTERNAL TABLE IF NOT EXISTS Entertainment(
+
+business_id string,
+categories_001  String,
+city   String,
+name  String,
+review_count int,
+stars  Double)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE LOCATION
+'/user/yashubh/LocalBussiness/Entertainment';
+
+
+/*To create table for the Medical category
+Create EXTERNAL TABLE IF NOT EXISTS Medical(
+
+business_id string,
+categories_001  String,
+city   String,
+name  String,
+review_count int,
+stars  Double)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE LOCATION
+'/user/yashubh/LocalBussiness/Medical';
+
+
+/*To create table for the Shopping category
+Create EXTERNAL TABLE IF NOT EXISTS Shopping(
+
+business_id string,
+categories_001  String,
+city   String,
+name  String,
+review_count int,
+stars  Double)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE LOCATION
+'/user/yashubh/LocalBussiness/Shopping';
+
+
+/*To create table for the Services category
+Create EXTERNAL TABLE IF NOT EXISTS Services(
+
+business_id string,
+categories_001  String,
+city   String,
+name  String,
+review_count int,
+stars  Double)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE LOCATION
+'/user/yashubh/LocalBussiness/Services';
+
+
+/*To create a joint table from Local Business and Reviews
+Create EXTERNAL TABLE IF NOT EXISTS crosstable(
+
+business_id string,
+categories_001  String,
+name  String,
+city   String,
+stars  Double,
+review_count int,
+totalfunny int,
+totalcool int,
+totaluseful int)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE LOCATION
+'/user/yashubh/LocalBussiness/crosstable';
+
+
+/*To populate data into Food table
+insert overwrite table Food
+Select business_id, categories_001, city, name, stars, review_count from biz where  
+categories_001 == 'Wine Bars' 
+or categories_001 == 'Vietnamese' 
+or categories_001 == 'vegetarian' 
+or categories_001 == 'vegan' 
+or categories_001 == 'Turkish' 
+or categories_001 == 'Thai' 
+or categories_001 == 'Tex-Mex' 
+or categories_001 == 'Tea Rooms' 
+or categories_001 == 'Tapas/Small Plates' 
+or categories_001=='Tapas Bars' 
+or categories_001=='Taiwanese' 
+or categories_001=='Szechuan' 
+or categories_001=='Sushi Bars' 
+or categories_001=='Steakhouses'
+or categories_001=='Soup' 
+or categories_001=='Soul Food' 
+or categories_001=='Seafood' 
+or categories_001=='Sandwiches' 
+or categories_001=='Salad' 
+or categories_001=='Russian' 
+or categories_001=='Restaurants' 
+or categories_001=='restaurant' 
+or categories_001=='Pubs' 
+or categories_001=='Pretzels' 
+or categories_001=='Portuguese' 
+or categories_001=='Pizza' 
+or categories_001=='Pakistani' 
+or categories_001=='Nightlife' 
+or categories_001=='night_club' 
+or categories_001=='Moroccan' 
+or categories_001=='Mongolian' 
+or categories_001=='Modern European' 
+or categories_001=='Middle Eastern' 
+or categories_001=='Mexican' 
+or categories_001=='Mediterranean' 
+or categories_001=='meal_takeaway' 
+or categories_001=='Live/Raw Food' 
+or categories_001=='liquor_store' 
+or categories_001=='Lebanese' 
+or categories_001=='Kosher' 
+or categories_001=='Korean' 
+or categories_001=='Kebab' 
+or categories_001=='Juice Bars & Smoothies' 
+or categories_001=='Japanese' 
+or categories_001=='Italian' 
+or categories_001=='Irish' 
+or categories_001=='Indian' 
+or categories_001=='Ice Cream & Frozen Yogurt' 
+or categories_001=='Hot Dogs' 
+or categories_001=='Hawaiian' 
+or categories_001=='Greek' 
+or categories_001=='German' 
+or categories_001=='Gay Bars' 
+or categories_001=='Gastropubs' 
+or categories_001=='French' 
+or categories_001=='Food Trucks' 
+or categories_001=='Food Stands' 
+or categories_001=='Food Court' 
+or categories_001=='Food' 
+or categories_001=='Fast Food' 
+or categories_001=='Ethiopian' 
+or categories_001=='Donuts' 
+or categories_001=='Diners' 
+or categories_001=='Dim Sum' 
+or categories_001=='Desserts' 
+or categories_001=='Cuban' 
+or categories_001=='Creperies' 
+or categories_001=='Comfort Food' 
+or categories_001=='Coffee & Tea' 
+or categories_001=='Chinese' 
+or categories_001=='Chicken Wings' 
+or categories_001=='Cheesesteaks' 
+or categories_001=='Cheese Shops' 
+or categories_001=='Champagne Bars' 
+or categories_001=='Caribbean' 
+or categories_001=='Canadian (New)' 
+or categories_001=='Cajun/Creole' 
+or categories_001=='Cafes' 
+or categories_001=='cafe' 
+or categories_001=='Burgers' 
+or categories_001=='Buffets' 
+or categories_001=='British' 
+or categories_001=='Breakfast & Brunch' 
+or categories_001=='Brasseries' 
+or categories_001=='Bistros' 
+or categories_001=='Belgian' 
+or categories_001=='Beer Garden' 
+or categories_001=='Bars' 
+or categories_001=='Bangladeshi' 
+or categories_001=='Bakeries' 
+or categories_001=='Asian Fusion' 
+or categories_001=='American (Traditional)' 
+or categories_001=='American (New)' 
+or categories_001=='African';
+
+
+/*To populate data into Education table
+insert overwrite table Education
+select business_id, categories_001, city, name, review_count, stars
+from biz
+where
+categories_001=='Adult Education'
+or categories_001=='Art Schools'
+or categories_001=='Barre Classes'
+or categories_001=='Cardio Classes'
+or categories_001=='Career Counseling'
+or categories_001=='Childbirth Education'
+or categories_001=='Colleges & Universities'
+or categories_001=='Cooking Schools'
+or categories_001=='Cosmetology Schools'
+or categories_001=='CPR Classes'
+or categories_001=='Cycling Classes'
+or categories_001=='Dance Schools'
+or categories_001=='Driving Schools'
+or categories_001=='Education'
+or categories_001=='Educational ServicesElementary Schools'
+or categories_001=='Elementary Schools'
+or categories_001=='First Aid Classes'
+or categories_001=='Golf Lessons'
+or categories_001=='Libraries'
+or categories_001=='library'
+or categories_001=='Massage Schools'
+or categories_001=='Middle Schools & High Schools'
+or categories_001=='Newspapers & Magazines'
+or categories_001=='Parenting Classes'
+or categories_001=='Pet Training'
+or categories_001=='Pole Dancing Classes'
+or categories_001=='Preschools'
+or categories_001=='Private Tutors'
+or categories_001=='Swimming Lessons/Schools'
+or categories_001=='Tutoring Centers'
+or categories_001=='university'
+or categories_001=='University Housing'
+or categories_001=='Used Bookstore';
+
+
+/*To populate data into Entertainment table
+insert overwrite table Entertainment
+select business_id, categories_001, city, name, review_count, stars
+from biz
+where
+categories_001=='Active Life'
+or categories_001=='Adult'
+or categories_001=='Adult Entertainment'
+or categories_001=='Amusement Parks'
+or categories_001=='amusement_park'
+or categories_001=='Archery'
+or categories_001=='Art Galleries'
+or categories_001=='art_gallery'
+or categories_001=='Arts & Entertainment'
+or categories_001=='Beaches'
+or categories_001=='Bingo Halls'
+or categories_001=='Bowling'
+or categories_001=='bowling_alley'
+or categories_001=='casino'
+or categories_001=='Casinos'
+or categories_001=='Cinema'
+or categories_001=='Comedy Clubs'
+or categories_001=='Comic Books'
+or categories_001=='Country Clubs'
+or categories_001=='Country Dance Halls'
+or categories_001=='Dance Clubs'
+or categories_001=='Day Camps'
+or categories_001=='Go Karts'
+or categories_001=='Golf'
+or categories_001=='Hiking'
+or categories_001=='Karaoke'
+or categories_001=='Kids Activities'
+or categories_001=='Leisure Centers'
+or categories_001=='Magicians'
+or categories_001=='movie_theater'
+or categories_001=='museum'
+or categories_001=='Museums'
+or categories_001=='night_club'
+or categories_001=='Nightlife'
+or categories_001=='Opera & Ballet'
+or categories_001=='Paintball'
+or categories_001=='Recreation Centers'
+or categories_001=='Resorts'
+or categories_001=='Scuba Diving'
+or categories_001=='Social Clubs'
+or categories_001=='Tennis'
+or categories_001=='zoo'
+or categories_001=='Zoos';
+
+
+/*To populate data into Medical table
+insert overwrite table Medical
+select business_id, categories_001, city, name, review_count, stars
+from biz
+where
+categories_001=='Acupuncture'
+or categories_001=='Allergists'
+or categories_001=='Anesthesiologists'
+or categories_001=='Cardio Classes'
+or categories_001=='Cardiologists'
+or categories_001=='Childbirth Education'
+or categories_001=='Cosmetic Dentists'
+or categories_001=='Cosmetic Surgeons'
+or categories_001=='Counseling & Mental Health'
+or categories_001=='CPR Classes'
+or categories_001=='dentist'
+or categories_001=='Dentists'
+or categories_001=='Dermatologists'
+or categories_001=='Diagnostic Imaging'
+or categories_001=='Diagnostic Services'
+or categories_001=='Dialysis Clinics'
+or categories_001=='doctor'
+or categories_001=='Doctors'
+or categories_001=='Ear Nose & Throat'
+or categories_001=='Endocrinologists'
+or categories_001=='Endodontists'
+or categories_001=='Fertility'
+or categories_001=='First Aid Classes'
+or categories_001=='Gastroenterologist'
+or categories_001=='General Dentistry'
+or categories_001=='health'
+or categories_001=='Health & Medical'
+or categories_001=='Health Markets'
+or categories_001=='hospital'
+or categories_001=='Hospitals'
+or categories_001=='Medical Centers'
+or categories_001=='Medical Spas'
+or categories_001=='Medical Supplies'
+or categories_001=='Medical Transportation'
+or categories_001=='Neurologist'
+or categories_001=='Nurse Practitioner'
+or categories_001=='Nutritionists'
+or categories_001=='Obstetricians & Gynecologists'
+or categories_001=='Oncologist'
+or categories_001=='Ophthalmologists'
+or categories_001=='Optometrists'
+or categories_001=='Oral Surgeons'
+or categories_001=='Orthodontists'
+or categories_001=='Orthopedists'
+or categories_001=='Orthotics'
+or categories_001=='Osteopathic Physicians'
+or categories_001=='Pediatric Dentists'
+or categories_001=='Pediatricians'
+or categories_001=='Periodontists'
+or categories_001=='pharmacy'
+or categories_001=='Physical Therapy'
+or categories_001=='physiotherapist'
+or categories_001=='PodiatristsProctologists'
+or categories_001=='Prosthodontists'
+or categories_001=='Psychologists'
+or categories_001=='Radiologists'
+or categories_001=='Rheumatologists'
+or categories_001=='Speech Therapists'
+or categories_001=='Spine Surgeons'
+or categories_001=='Surgeons'
+or categories_001=='Urologists'
+or categories_001=='Vitamins & Supplements';
+
+
+/*To populate data into Services table
+insert overwrite table Services
+select business_id, categories_001, city, name, review_count, stars
+from biz
+where
+categories_001=='Air Duct Cleaning'
+or categories_001=='Aircraft Repairs'
+or categories_001=='Appliances & Repair'
+or categories_001=='Appraisal Services'
+or categories_001=='Aquarium Services'
+or categories_001=='Auto Customization'
+or categories_001=='Auto Detailing'
+or categories_001=='Auto Glass Services'
+or categories_001=='Bike Rentals'
+or categories_001=='Bike Repair/Maintenance'
+or categories_001=='Blow Dry/Out Services'
+or categories_001=='Car Brokers'
+or categories_001=='Car Rental'
+or categories_001=='Car Stereo Installation'
+or categories_001=='Car Wash'
+or categories_001=='car_rental'
+or categories_001=='car_repair'
+or categories_001=='car_wash'
+or categories_001=='Carpet Cleaning'
+or categories_001=='Carpet Installation'
+or categories_001=='Chimney Sweeps'
+or categories_001=='Commercial Truck Repair'
+or categories_001=='Community Service/Non-Profit'
+or categories_001=='Countertop Installation'
+or categories_001=='Couriers & Delivery Services'
+or categories_001=='Demolition Services'
+or categories_001=='Door Sales/Installation'
+or categories_001=='Drywall Installation & Repair'
+or categories_001=='Event Photography'
+or categories_001=='Event Planning & Services'
+or categories_001=='Eyelash Service'
+or categories_001=='Farm Equipment Repair'
+or categories_001=='Financial Advising'
+or categories_001=='Financial Services'
+or categories_001=='Fire Departments'
+or categories_001=='Fire Protection Services'
+or categories_001=='Fireplace Services'
+or categories_001=='Food Delivery Services'
+or categories_001=='Funeral Services & Cemeteries'
+or categories_001=='Garage Door Services'
+or categories_001=='Gas & Service Stations'
+or categories_001=='Gutter Services'
+or categories_001=='Home Cleaning'
+or categories_001=='Home Services'
+or categories_001=='Home Theatre Installation'
+or categories_001=='Home Window Tinting'
+or categories_001=='House Sitters'
+or categories_001=='Insulation Installation'
+or categories_001=='IT Services & Computer Repair'
+or categories_001=='Jewelry Repair'
+or categories_001=='Junk Removal & Hauling'
+or categories_001=='Keys & Locksmiths'
+or categories_001=='Legal Services'
+or categories_001=='Lice Services'
+or categories_001=='Local Services'
+or categories_001=='meal_delivery'
+or categories_001=='Mobile Phone Repair'
+or categories_001=='Mortgage Brokers'
+or categories_001=='Motorcycle Repair'
+or categories_001=='Musical Instrument Services'
+or categories_001=='Party & Event Planning'
+or categories_001=='Payroll Services'
+or categories_001=='Pest Control'
+or categories_001=='Pet Boarding/Pet Sitting'
+or categories_001=='Pet Groomers'
+or categories_001=='Photography Stores & Services'
+or categories_001=='Piano Services'
+or categories_001=='plumber'
+or categories_001=='Plumbing'
+or categories_001=='Pool & Hot Tub Service'
+or categories_001=='Printing Services'
+or categories_001=='Private Investigation'
+or categories_001=='Private Tutors'
+or categories_001=='Professional Services'
+or categories_001=='Public Services & Government'
+or categories_001=='Public Transportation'
+or categories_001=='Real Estate Services'
+or categories_001=='real_estate_agency'
+or categories_001=='Refinishing Services'
+or categories_001=='Security Services'
+or categories_001=='Shoe Repair'
+or categories_001=='Shredding Services'
+or categories_001=='Solar Installation'
+or categories_001=='Tax Services'
+or categories_001=='Television Service Providers'
+or categories_001=='Threading Services'
+or categories_001=='Translation Services'
+or categories_001=='Transmission Repair'
+or categories_001=='Travel Services'
+or categories_001=='Tree Services'
+or categories_001=='Vacation Rental Agents'
+or categories_001=='Valet Services'
+or categories_001=='Watch Repair'
+or categories_001=='Water Delivery'
+or categories_001=='Water Heater Installation/Repair'
+or categories_001=='Water Purification Services'
+or categories_001=='Wedding Planning'
+or categories_001=='Window Washing'
+or categories_001=='Windows Installation'
+or categories_001=='Windshield Installation & Repair';
+
+
+/*To populate data into Shopping table
+insert overwrite table Shopping
+select business_id,categories_001,city,name,review_count,stars
+from biz 
+where
+categories_001=='Appliances'
+or categories_001=='Bespoke Clothing'
+or categories_001=='bicycle_store'
+or categories_001=='Body Shops'
+or categories_001=='book_store'
+or categories_001=='Bookstores'
+or categories_001=='clothing_store'
+or categories_001=='Costumes'
+or categories_001=='Department Stores'
+or categories_001=='department_store'
+or categories_001=='Dive Shops'
+or categories_001=='electronics_store'
+or categories_001=='Fabric Stores'
+or categories_001=='Flowers & Gifts'
+or categories_001=='furniture_store'
+or categories_001=='Gift Shops'
+or categories_001=='Guitar Stores'
+or categories_001=='Head Shops'
+or categories_001=='home_goods_store'
+or categories_001=='Outlet Stores'
+or categories_001=='Paint Stores'
+or categories_001=='Pawn Shops'
+or categories_001=='Pet Stores'
+or categories_001=='pet_store'
+or categories_001=='Piano Stores'
+or categories_001=='Pop-up Shops'
+or categories_001=='Shoe Stores'
+or categories_001=='shoe_store'
+or categories_001=='Shopping'
+or categories_001=='Shopping Centers'
+or categories_001=='shopping_mall'
+or categories_001=='Souvenir Shops'
+or categories_001=='Surf Shop'
+or categories_001=='Thrift Stores'
+or categories_001=='Tobacco Shops'
+or categories_001=='Toy Stores'
+or categories_001=='Trophy Shops'
+or categories_001=='Vape Shops';
+
+
+/*To find out the maximum review count of the Local Business (for each category)
+select business_id, city, name, review_count, stars
+from Food
+where stars=5
+group by business_id, city, name, review_count, stars
+order by review_count desc
+limit 10;
+
+select business_id, city, name, review_count, stars
+from Education
+where stars=5
+group by business_id, city, name, review_count, stars
+order by review_count desc
+limit 10; 
+
+select business_id, city, name, review_count, stars
+from Entertainment
+where stars=5
+group by business_id, city, name, review_count, stars
+order by review_count desc
+limit 10; 
+
+select business_id, city, name, review_count, stars
+from Medical
+where stars=5
+group by business_id, city, name, review_count, stars
+order by review_count desc
+limit 10; 
+
+select business_id, city, name, review_count, stars
+from Services
+where stars=5
+group by business_id, city, name, review_count, stars
+order by review_count desc
+limit 10; 
+
+select business_id, city, name, review_count, stars
+from Shopping
+where stars=5
+group by business_id, city, name, review_count, stars
+order by review_count desc
+limit 10;

@@ -1,0 +1,67 @@
+/*To create a table called dictionary for the sentiment analysis
+CREATE EXTERNAL TABLE if not exists dictionary (
+type string,
+length int,
+word string,
+pos string,
+stemmed string,
+polarity string )
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE
+LOCATION '/user/yashubh/dictionary';
+
+
+/*Hive Queries to Compute Sentiment
+create view IF NOT EXISTS l1 as
+select reviewid,businessid,words
+from reviews
+lateral view explode(sentences(lower(comment))) dummy as words;
+
+
+/*To assign values 1 and -1 to the review based on positive and negative sentiment respectively
+create view IF NOT EXISTS l2 as select
+reviewid,businessid,l2.word,
+case d.polarity
+when 'negative' then -1
+when 'positive' then 1
+else 0 end as polarity
+from l2 left outer join dictionary d on l2.word = d.word;
+
+
+/*To create table to populate the positive, negative and neutral snetiments
+create table IF NOT EXISTS review_sentiment_biz
+stored as orc as select
+reviewid,businessid,
+case
+when sum( polarity ) > 0 then 'positive'
+when sum( polarity ) < 0 then 'negative'
+else 'neutral' end as sentiment
+from l3 where reviewid <> '#NAME?' and reviewid <> '#VALUE!' and businessid <> '#NAME?' and businessid <> '#REF!'
+group by businessid,reviewid;
+
+create table IF NOT EXISTS review_sentiment_rev
+stored as orc as select
+reviewid,businessid,
+case
+when sum( polarity ) > 0 then 'positive'
+when sum( polarity ) < 0 then 'negative'
+else 'neutral' end as sentiment
+from l3 where reviewid <> '#NAME?' and reviewid <> '#VALUE!' and businessid <> '#NAME?' and businessid <> '#REF!'
+group by reviewid,businessid;
+
+
+/*To create table with cool funny and useful values based on the sentiments
+create external table if not exists review_analysis(
+funny int,useful int,cool int,userid string,reviewid string,stars int,businessid string,
+sentiment string)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION '/user/yashubh/sentiment_analysis';
+
+
+/*To populate data into the reviews table
+insert overwrite table review_analysis
+select funny,useful,cool,userid,reviews.reviewid,stars,review_sentiment_biz.businessid,
+sentiment from reviews join review_sentiment_biz on reviews.businessid=review_sentiment_biz.businessid and reviews.reviewid=review_sentiment_biz.reviewid;
