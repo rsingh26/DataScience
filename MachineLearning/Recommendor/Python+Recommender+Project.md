@@ -181,13 +181,11 @@ The data used in this exercise describes 5-star rating activity from Yelp. It wa
 
 This Yelp datasets are publicly available for download at <https://www.yelp.com/dataset_challenge/dataset>.
 
-**Reference**
-1. Predicting Song Listens Using Apache Spark, https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/3175648861028866/48824497172554/657465297935335/latest.html
-
 
 ```python
 
 ```
 References:
+1. Predicting Song Listens Using Apache Spark, https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/3175648861028866/48824497172554/657465297935335/latest.html
 1. Microsoft DAT202.3x Implementing Predictive Analytics with Spark in Azure HDInsight 
 1. Microsoft's DAT203x, Data Science and Machine Learning Essentials 
