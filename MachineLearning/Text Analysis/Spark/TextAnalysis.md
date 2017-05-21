@@ -2,7 +2,7 @@
 <a href="http://www.calstatela.edu/centers/hipic"><img align="left" src="https://avatars2.githubusercontent.com/u/4156894?v=3&s=100"><image/></a>
 <img align="right" alt="California State University, Los Angeles" src="http://www.calstatela.edu/sites/default/files/groups/California%20State%20University%2C%20Los%20Angeles/master_logo_full_color_horizontal_centered.svg" style="width: 360px;"/>
 
-#### Authors: [Ruchi Singh](https://www.linkedin.com/in/ruchi-singh-68015945/); [Kulwinder Kaur](https://www.linkedin.com/in/kulwinder-kaur-528a1b129/); [Ovanes Mikaelian](https://www.linkedin.com/in/kulwinder-kaur-528a1b129/)
+#### Authors: [Ruchi Singh](https://www.linkedin.com/in/ruchi-singh-68015945/); [Kulwinder Kaur](https://www.linkedin.com/in/kulwinder-kaur-528a1b129/); [Ovanes Mikaelian](https://www.linkedin.com/in/hovik-mikaelian-93a257a3/)
 
 #### Instructor: [Jongwook Woo](https://www.linkedin.com/in/jongwook-woo-7081a85)
 
