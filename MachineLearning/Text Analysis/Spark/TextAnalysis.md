@@ -156,3 +156,6 @@ aur = evaluator.evaluate(prediction)
 print "AUR = ", aur
 
 ```
+References:
+1. Microsoft DAT202.3x Implementing Predictive Analytics with Spark in Azure HDInsight 
+1. Microsoft's DAT203x, Data Science and Machine Learning Essentials 
