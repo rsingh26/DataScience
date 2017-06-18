@@ -1,42 +1,55 @@
 
-## Clustering
-In this exercise, you will use K-Means clustering to segment customer data into five clusters.
+<a href="http://www.calstatela.edu/centers/hipic"><img align="left" src="https://avatars2.githubusercontent.com/u/4156894?v=3&s=100"><image/></a>
+<img align="right" alt="California State University, Los Angeles" src="http://www.calstatela.edu/sites/default/files/groups/California%20State%20University%2C%20Los%20Angeles/master_logo_full_color_horizontal_centered.svg" style="width: 360px;"/>
 
+#### Author: [Ruchi Singh](https://www.linkedin.com/in/ruchi-singh-68015945/)
+
+#### Instructor: [Jongwook Woo](https://www.linkedin.com/in/jongwook-woo-7081a85)
+
+#### Date: 05/20/2017
+
+## Clustering
+Cluster analysis divides data into groups (clusters) that are meaningful, useful or both. It describes the objects and their relationships. K-means clustering is a partitional clustering technique that attemps to find user specified numbers of cluster (K), which are representd by their centroids.
+
+## Clustering of food related business in Yelp
+Grouping food related business based on their review count, taking in account appropriate feature columns.
+
+## Download Data
+
+Download the "Business-Food.csv" file and upload in Databricks. Data-> default-> Create Table. Rename the table as "Food2" and check for all the columns datatype. 
+
+This is the data to be used for training the machine learning algorithm.
+
+
+```python
 ### Import the Libraries
 You will use the **KMeans** class to create your model. This will require a vector of features, so you will also use the **VectorAssembler** class.
+
+```
 
 
 ```python
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
-
 from pyspark.ml.clustering import KMeans
 from pyspark.ml.feature import StringIndexer
 from pyspark.ml.feature import VectorAssembler
 ```
 
 ### Load Source Data
-The source data for your clusters is in a comma-separated values (CSV) file, and incldues the following features:
-- CustomerName: The custome's name
-- Age: The customer's age in years
-- MaritalStatus: The custtomer's marital status (1=Married, 0 = Unmarried)
-- IncomeRange: The top-level for the customer's income range (for example, a value of 25,000 means the customer earns up to 25,000)
-- Gender: A numeric value indicating gender (1 = female, 2 = male)
-- TotalChildren: The total number of children the customer has
-- ChildrenAtHome: The number of children the customer has living at home.
-- Education: A numeric value indicating the highest level of education the customer has attained (1=Started High School to 5=Post-Graduate Degree
-- Occupation: A numeric value indicating the type of occupation of the customer (0=Unskilled manual work to 5=Professional)
-- HomeOwner: A numeric code to indicate home-ownership (1 - home owner, 0 = not a home owner)
-- Cars: The number of cars owned by the customer.
+The source data Business-Food is a comma-separated values (CSV) file, and incldues the following features:
+- review_count: The number of reviews for the business
+- Take-out: If the food business has take facility  
+- GoodFor-lunch: The customer's think the food place is good for lunch
+- GoodFor-dinner: The customer's think the food place is good for dinner
+- GoodFor-breakfast: The customer's think the food place is good for breakfast
+- stars: The star rating given by the customers for the food business (1-5)
 
 
 ```python
 # Adopt shcmea to read csv data set in the schema. 
 
-'''customers= spark.read.csv('swift://Unsupervised13.' + name + '/customers.csv', header="true", inferSchema="true",mode="DROPMALFORMED")'''
 csv = sqlContext.sql("Select * from food2")
-
-
 ```
 
 
@@ -87,13 +100,12 @@ dfhot = oneHotEncodeColumns(dfnumeric, ["Take-out","GoodFor_lunch", "GoodFor_din
 ```
 
 ### Create the K-Means Model
-You will use the feaures in the customer data to create a Kn-Means model with a k value of 5. This will be used to generate 5 clusters.
+You will use the feaures in the food business data to create a K-Means model with a k value of 5. This will be used to generate 5 clusters.
 
 
 ```python
 assembler = VectorAssembler(inputCols = list(set(dfhot.columns) | set(['stars','review_count'])), outputCol="features")
 train = assembler.transform(dfhot)
-
 knum = 5
 kmeans = KMeans(featuresCol=assembler.getOutputCol(), predictionCol="cluster", k=knum, seed=0)
 model = kmeans.fit(train)
@@ -112,7 +124,7 @@ for center in centers:
 ```
 
 ### Predict Clusters
-Now that you have trained the model, you can use it to segemnt the customer data into 5 clusters and show each customer with their allocated cluster.
+Now that we have trained the model, we can use it to segemnt the customer data into 5 clusters and show each business with their allocated cluster.
 
 
 ```python
@@ -132,10 +144,5 @@ for i in range(0,knum):
                                     .where("cluster =" +  str(i))
     customerCluster[str(i)]= tmp
     print "Cluster"+str(i)
-    customerCluster[str(i)].show(50)
-```
-
-
-```python
-
+    customerCluster[str(i)].show(3)
 ```

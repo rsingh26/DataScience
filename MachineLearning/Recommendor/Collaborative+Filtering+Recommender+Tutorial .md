@@ -1,4 +1,17 @@
 
+<a href="http://www.calstatela.edu/centers/hipic"><img align="left" src="https://avatars2.githubusercontent.com/u/4156894?v=3&s=100"><image/>
+</a>
+
+
+#### Author: [Ovanes H. Mikaelian](https://www.linkedin.com/in/hovik-mikaelian-93a257a3/)
+<p><img align="center" alt="California State University, Los Angeles" src="http://www.calstatela.edu/sites/default/files/groups/California%20State%20University%2C%20Los%20Angeles/master_logo_full_color_horizontal_centered.svg" style="width: 360px;"/>
+
+------
+
+#### Instructor: [Jongwook Woo](https://www.linkedin.com/in/jongwook-woo-7081a85)
+
+#### Date: 05/18/2017
+
 ## Collaborative Filtering
 Collaborative filtering is a machine learning technique that predicts ratings awarded to items by users.
 
@@ -43,21 +56,18 @@ print "Training Rows:", train_rows, " Testing Rows:", test_rows
 ### Build the Recommender
 In ALS, users and categories are described by a small set of latent features (factors) that can be used to predict missing entries.
 
-
 We can use the features to produce some sort of algorithm (**ALS**) to intelligently calculate stars given by each user to a particular business category.
 
-The ALS class is an estimator, so we used its **fit** method to traing a model, or you can include it in a pipeline. Rather than specifying a feature vector and as label, the ALS algorithm requries a numeric user ID, caategories, and stars.
+The ALS class is an estimator, so we used its **fit** method to traing a model. It could also be included in a pipeline. Rather than specifying a feature vector and as label, the ALS algorithm requries a numeric user ID, categories, and stars.
 
 
 ```python
 als = ALS(userCol="user_id", itemCol="categories", ratingCol="label")
-#als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="movieId", ratingCol="label")
-#model = als.fit(train)
 ```
 
 
 ```python
-#### Add paramGrid and Validation: JWoo5
+#### Add paramGrid and Validation
 ```
 
 
@@ -74,8 +84,8 @@ paramGrid = ParamGridBuilder() \
 
 
 ```python
-cv = TrainValidationSplit(estimator=als, evaluator=RegressionEvaluator(), estimatorParamMaps=paramGrid, trainRatio=0.8)
-#cv = CrossValidator(estimator=alsImplicit, estimatorParamMaps=paramGrid, evaluator=RegressionEvaluator())
+cv = TrainValidationSplit(estimator=als, evaluator=RegressionEvaluator(), 
+                          estimatorParamMaps=paramGrid, trainRatio=0.8)
 model = cv.fit(train)
 ```
 
@@ -101,16 +111,9 @@ Calculate RMSE using RegressionEvaluator
 
 ```python
 # RegressionEvaluator: predictionCol="prediction", metricName="rmse"
-'''RegressionEvaluator evaluator = new RegressionEvaluator()
-  .setMetricName("rmse")
-  .setLabelCol("rating")
-  .setPredictionCol("prediction");'''
-```
-
-
-```python
-# RegressionEvaluator: predictionCol="prediction", metricName="rmse"
-evaluator = RegressionEvaluator(labelCol="trueLabel", predictionCol="prediction", metricName="rmse")
+evaluator = RegressionEvaluator(labelCol="trueLabel", 
+                                predictionCol="prediction", 
+                                metricName="rmse")
 rmse = evaluator.evaluate(prediction)
 print "Root Mean Square Error (RMSE):", rmse
 ```

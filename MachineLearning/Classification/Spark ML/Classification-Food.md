@@ -1,7 +1,31 @@
 
+<a href="http://www.calstatela.edu/centers/hipic"><img align="left" src="https://avatars2.githubusercontent.com/u/4156894?v=3&s=100"><image/></a>
+<img align="right" alt="California State University, Los Angeles" src="http://www.calstatela.edu/sites/default/files/groups/California%20State%20University%2C%20Los%20Angeles/master_logo_full_color_horizontal_centered.svg" style="width: 360px;"/>
+
+#### Author: [Ruchi Singh](https://www.linkedin.com/in/ruchi-singh-68015945/)
+
+#### Instructor: [Jongwook Woo](https://www.linkedin.com/in/jongwook-woo-7081a85)
+
+#### Date: 05/20/2017
+
+### Classification
+
+### Prediction for FOOD related business
+To have clearity in understanding which feature columns contributes in our prediction we can broadly categorize the business into different Categories like Food, Entertaiment, Medical, Services, Shooping, Education etc. For predicting the popularity of the Yelp business we decide to choose Food related business and feature columns.
+
+Sub categories under Food category are 'Wine Bars','Vietnamese','vegetarian','vegan','Turkish','Thai','Tex-Mex','Tea Rooms','Tapas/Small Plates','Tapas Bars','Taiwanese','Szechuan','Sushi Bars','Steakhouses','Soup','Soul Food','Seafood','Sandwiches','Salad','Russian','Restaurants','restaurant' etc.
+
+The feature columns related to food are review_count,stars,Take-out,GoodFor_lunch,GoodFor_dinner,GoodFor_breakfast,Noise_Level, Takes_Reservations,Delivery,Parking_lot,WheelchairAccessible,Alcohol,WaiterService,Wi-Fi.
+
+## Download Data
+
+download the "Business-Food.csv" file and upload in Databricks. Data-> default-> Create Table. Rename the table as "Food2" and check for all the columns datatype. 
+
+This is the data to be used for training the machine learning algorithm.
+
 ## Logestic regression
 
-The Logestic Regression classification model is used to predict the stars (popularity) for the business.
+The Logestic Regression classification model is used to predict the stars (popularity) for the business.The assumtion made here is that the business is unpopular if the Star is less than 3 and the business is popular if the Stars are more than 3.
 
 ### Prepare the Data
 First, import the libraries you will need and prepare the training and test data:
@@ -21,6 +45,9 @@ from pyspark.ml.evaluation import BinaryClassificationEvaluator, RegressionEvalu
 
 ```
 
+### Load Food table
+Food table created is now loaded in Spark using SQL query:
+
 
 ```python
 # Load the source data
@@ -31,10 +58,7 @@ csv = sqlContext.sql("Select * from food2")
 ```python
 # Select features and label
 # Logistic Regression
-# data = csv.select("DayofMonth", "DayOfWeek", "OriginAirportID", "DestAirportID", "DepDelay", ((col("ArrDelay") > 15).cast("Int").alias("label")))
 data = csv.select("review_count","Take-out", "GoodFor_lunch", "GoodFor_dinner", "GoodFor_breakfast","Noise_Level", "Takes_Reservations","Delivery","Parking_lot", "WheelchairAccessible","Alcohol", "WaiterService","Wi-Fi","stars")
-
-
 ```
 
 
@@ -98,6 +122,9 @@ va = VectorAssembler(outputCol="features", inputCols=list(set(dfhot.columns)-set
 lpoints = va.transform(dfhot).select("features", "stars").withColumnRenamed("stars","label")
 ```
 
+### Data Split
+Split the data into training and test data in the ratio 80:20 using a random split.
+
 
 ```python
 # Split the data
@@ -116,7 +143,6 @@ lrmodel = lr.fit(adulttrain)
 lrmodel = lr.setParams(regParam=0.01, maxIter=500, fitIntercept=True).fit(adulttrain)
 lrmodel.intercept
 
-
 validpredicts = lrmodel.transform(adultvalid)
 ```
 
@@ -124,6 +150,9 @@ validpredicts = lrmodel.transform(adultvalid)
 ```python
 validpredicts.show(5)
 ```
+
+### Evaluate the model
+Using a BinaryClassificationEvaluator the classification model used on the data is evaluated.
 
 
 ```python
@@ -141,6 +170,9 @@ bceval.evaluate(validpredicts)
 display(validpredicts)
 ```
 
+### Cross validation
+It is is to ensure that every example from the original dataset has the same chance of appearing in the training and testing set.
+
 
 ```python
 from pyspark.ml.tuning import CrossValidator
@@ -156,11 +188,11 @@ BinaryClassificationEvaluator().evaluate(cvmodel.bestModel.transform(adultvalid)
 You can tune parameters to find the best model for your data. A simple way to do this is to use  **TrainValidationSplit** to evaluate each combination of parameters defined in a **ParameterGrid** against a subset of the training data in order to find the best performing parameters.
 
 #### Regularization 
-is a way of avoiding Imbalances in the way that the data is trained against the training data so that the model ends up being over fit to the training data. In other words It works really well with the training data but it doesn't generalize well with other data.
+It is a way of avoiding Imbalances in the way that the data is trained against the training data so that the model ends up being over fit to the training data. In other words It works really well with the training data but it doesn't generalize well with other data.
 That we can use a **regularization parameter** to vary the way that the model balances that way.
 
 #### Training ratio of 0.8
-it's going to use 80% of the the data that it's got in its training set to train the model and then the remaining 20% is going to use to validate the trained model. 
+It is going to use 80% of the the data that it's got in its training set to train the model and then the remaining 20% is going to use to validate the trained model. 
 
 In **ParamGridBuilder**, all possible combinations are generated from regParam, maxIter, threshold. So it is going to try each combination of the parameters with 80% of the the data to train the model and 20% to to validate it.
 
@@ -199,7 +231,7 @@ Precision (0.8762570727816253), Recall (0.7303376371612134): Precision becomes a
 
 
 ```python
-# Only for Classification Logistic Regression not for Linear Regression
+# Only for Classification Logistic Regression 
 
 tp = float(predicted.filter("prediction == 1.0 AND label == 1").count())
 fp = float(predicted.filter("prediction == 1.0 AND label == 0").count())
@@ -213,8 +245,6 @@ metrics = spark.createDataFrame([
  ("Precision", tp / (tp + fp)),
  ("Recall", tp / (tp + fn))],["metric", "value"])
 metrics.show()
-
-
 ```
 
 ### Review the Area Under ROC: Only for Classification Logistic Regression 
@@ -227,13 +257,9 @@ display(metrics)
 
 
 ```python
-# LogisticRegression: rawPredictionCol="prediction", metricName="areaUnderROC"
-
 evaluator = BinaryClassificationEvaluator(labelCol="label", rawPredictionCol="prediction", metricName="areaUnderROC")
 aur = evaluator.evaluate(validpredicts)
 print "AUR = ", aur
-
-
 ```
 
 
