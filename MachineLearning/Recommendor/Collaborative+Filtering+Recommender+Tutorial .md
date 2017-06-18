@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD:MachineLearning/Recommendor/Collaborative+Filtering+Recommender+Tutorial .md
 <a href="http://www.calstatela.edu/centers/hipic"><img align="left" src="https://avatars2.githubusercontent.com/u/4156894?v=3&s=100"><image/>
 </a>
 
@@ -12,6 +13,18 @@
 
 #### Date: 05/18/2017
 
+=======
+<a href="http://www.calstatela.edu/centers/hipic"><img align="left" src="https://avatars2.githubusercontent.com/u/4156894?v=3&s=100"><image/></a>
+<img align="right" alt="California State University, Los Angeles" src="http://www.calstatela.edu/sites/default/files/groups/California%20State%20University%2C%20Los%20Angeles/master_logo_full_color_horizontal_centered.svg" style="width: 360px;"/>
+
+#### Authors: [Ruchi Singh](https://www.linkedin.com/in/ruchi-singh-68015945/); [Kulwinder Kaur](https://www.linkedin.com/in/kulwinder-kaur-528a1b129/); [Ovanes Mikaelian](https://www.linkedin.com/in/hovik-mikaelian-93a257a3/)
+
+#### Instructor: [Jongwook Woo](https://www.linkedin.com/in/jongwook-woo-7081a85)
+
+#### Date: 05/20/2017
+
+# CIS5560 Term Project Tutorial
+>>>>>>> 7027ef5e9ff09b1a55f64170086e7dd0f81dac30:MachineLearning/Recommendor/Python+Recommender+Project.md
 ## Collaborative Filtering
 Collaborative filtering is a machine learning technique that predicts ratings awarded to items by users.
 
@@ -174,10 +187,14 @@ The data used in this exercise describes 5-star rating activity from Yelp. It wa
 
 This Yelp datasets are publicly available for download at <https://www.yelp.com/dataset_challenge/dataset>.
 
-**Reference**
-1. Predicting Song Listens Using Apache Spark, https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/3175648861028866/48824497172554/657465297935335/latest.html
-
 
 ```python
 
 ```
+References:
+1. Predicting Song Listens Using Apache Spark, https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/3175648861028866/48824497172554/657465297935335/latest.html
+1. Microsoft DAT202.3x Implementing Predictive Analytics with Spark in Azure HDInsight 
+1. Microsoft's DAT203x, Data Science and Machine Learning Essentials 
+1. [URL of Data Source](https://s3.amazonaws.com/hipicdatasets/yelp_raw_fall_2016.csv)
+1. [URL of Data Source2](https://www.yelp.com/dataset_challenge/dataset)
+1. [URL of our  Github](https://github.com/rsingh26/DataScience/tree/master/MachineLearning)

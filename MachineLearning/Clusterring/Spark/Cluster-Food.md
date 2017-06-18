@@ -1,3 +1,5 @@
+<a href="http://www.calstatela.edu/centers/hipic"><img align="left" src="https://avatars2.githubusercontent.com/u/4156894?v=3&s=100"><image/></a>
+<img align="right" alt="California State University, Los Angeles" src="http://www.calstatela.edu/sites/default/files/groups/California%20State%20University%2C%20Los%20Angeles/master_logo_full_color_horizontal_centered.svg" style="width: 360px;"/>
 
 <a href="http://www.calstatela.edu/centers/hipic"><img align="left" src="https://avatars2.githubusercontent.com/u/4156894?v=3&s=100"><image/></a>
 <img align="right" alt="California State University, Los Angeles" src="http://www.calstatela.edu/sites/default/files/groups/California%20State%20University%2C%20Los%20Angeles/master_logo_full_color_horizontal_centered.svg" style="width: 360px;"/>
@@ -146,3 +148,14 @@ for i in range(0,knum):
     print "Cluster"+str(i)
     customerCluster[str(i)].show(3)
 ```
+
+
+```python
+
+```
+References:
+1. Microsoft DAT202.3x Implementing Predictive Analytics with Spark in Azure HDInsight 
+1. Microsoft's DAT203x, Data Science and Machine Learning Essentials 
+1. [URL of Data Source](https://s3.amazonaws.com/hipicdatasets/yelp_raw_fall_2016.csv)
+1. [URL of Data Source2](https://www.yelp.com/dataset_challenge/dataset)
+1. [URL of our  Github](https://github.com/rsingh26/DataScience/tree/master/MachineLearning)

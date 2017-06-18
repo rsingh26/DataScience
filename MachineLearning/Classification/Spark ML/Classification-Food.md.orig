@@ -2,12 +2,17 @@
 <a href="http://www.calstatela.edu/centers/hipic"><img align="left" src="https://avatars2.githubusercontent.com/u/4156894?v=3&s=100"><image/></a>
 <img align="right" alt="California State University, Los Angeles" src="http://www.calstatela.edu/sites/default/files/groups/California%20State%20University%2C%20Los%20Angeles/master_logo_full_color_horizontal_centered.svg" style="width: 360px;"/>
 
+<<<<<<< HEAD:MachineLearning/Classification/Spark ML/Classification-Food.md
 #### Author: [Ruchi Singh](https://www.linkedin.com/in/ruchi-singh-68015945/)
+=======
+#### Authors: [Ruchi Singh](https://www.linkedin.com/in/ruchi-singh-68015945/); [Kulwinder Kaur](https://www.linkedin.com/in/kulwinder-kaur-528a1b129/); [Ovanes Mikaelian](https://www.linkedin.com/in/hovik-mikaelian-93a257a3/)
+>>>>>>> 7027ef5e9ff09b1a55f64170086e7dd0f81dac30:MachineLearning/Classification/Spark ML/Classification.md
 
 #### Instructor: [Jongwook Woo](https://www.linkedin.com/in/jongwook-woo-7081a85)
 
 #### Date: 05/20/2017
 
+<<<<<<< HEAD:MachineLearning/Classification/Spark ML/Classification-Food.md
 ### Classification
 
 ### Prediction for FOOD related business
@@ -23,6 +28,9 @@ download the "Business-Food.csv" file and upload in Databricks. Data-> default->
 
 This is the data to be used for training the machine learning algorithm.
 
+=======
+# CIS5560 Term Project Tutorial
+>>>>>>> 7027ef5e9ff09b1a55f64170086e7dd0f81dac30:MachineLearning/Classification/Spark ML/Classification.md
 ## Logestic regression
 
 The Logestic Regression classification model is used to predict the stars (popularity) for the business.The assumtion made here is that the business is unpopular if the Star is less than 3 and the business is popular if the Stars are more than 3.
